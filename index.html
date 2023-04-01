@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+  <div id="app">
+    <v-app id="inspire">
+
+      <div>
+        <v-data-table :headers="headers" :items="spuPerfData" item-key="id" class="elevation-1" :search="search" :custom-filter="wildSearch">
+          <template v-slot:top>
+            <v-text-field v-model="search" label="Search (spuId, spuName)" class="mx-4" ></v-text-field>
+          </template>
+          <template v-slot:body.append>
+            <tr>
+              <td><v-text-field v-model="spuId"             type="text"     label="spuId Keywords"></v-text-field></td>
+              <td><v-text-field v-model="spuName"           type="text"     label="spuName Keywords"></v-text-field></td>
+              <td><v-text-field v-model="spend"             type="number"   label="> n"></v-text-field></td>
+              <td><v-text-field v-model="impressions"       type="number"   label="To Be Supported"></v-text-field></td>
+              <td><v-text-field v-model="clicks"            type="number"   label="To Be Supported"></v-text-field></td>
+              <td><v-text-field v-model="conversion"        type="number"   label="To Be Supported"></v-text-field></td>
+              <td><v-text-field v-model="totalValue"        type="number"   label="To Be Supported"></v-text-field></td>
+              <td><v-text-field v-model="cpa_"              type="number"   label="To Be Supported"></v-text-field></td>
+              <td><v-text-field v-model="roas"              type="number"   label="> n"></v-text-field></td>
+            </tr>
+          </template>
+        </v-data-table>
+      </div>
+    </v-app>
+  </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    let spuPerfData = [ ]
+
+
+    function getSpuPerf() {
+        const data = {}
+        const options = {
+            method: 'GET',
+            headers: { 'content-type': 'application/json' },
+            data: data,
+            url: '/data'
+        };
+        axios(options)
+        .then(response=>{
+            spuPerfData = response.data;
+
+            /** Create Vue instance */
+            let vm = new Vue({
+                el: '#app',
+                vuetify: new Vuetify(),
+                data:function () {
+                    return {
+                        search: '',
+                        spuId: '',
+                        spuName: '',
+                        spend: '',
+                        impressions: '',
+                        clicks: '',
+                        conversion: '',
+                        totalValue: '',
+                        cpa_: '',
+                        roas:'',
+                        spuPerfData
+                    }
+                },
+                computed: {
+                    headers () {
+                        return [
+                            { text: 'spuId',        align: 'start', sortable: true, value: 'spuId', filter:value=>{
+                                if (!this.spuId) return true
+                                return value.toLowerCase().includes(this.spuId.toLowerCase())
+                            }},
+
+                            { text: 'spuName',      align: 'start', sortable: true, value: 'spuName', filter:value=>{
+                                if (!this.spuName) return true
+                                console.log(`${value} ${this.spuName}`)
+
+                                return value.toLowerCase().includes(this.spuName.toLowerCase())
+                            }},
+
+
+                            { text: 'spend',            align: 'start', sortable: true, value: 'spend', filter:value=>{
+                                if (!this.spend) return true
+                                return parseFloat(value) > parseFloat(this.spend)
+                            }},
+                            { text: 'impressions',      align: 'start', sortable: true, value: 'impressions'},
+                            { text: 'clicks',           align: 'start', sortable: true, value: 'clicks'},
+                            { text: 'conversion',       align: 'start', sortable: true, value: 'conversion'},
+
+                            { text: 'totalValue',       align: 'start', sortable: true, value: 'totalValue'},
+
+                            { text: 'cpa_',             align: 'start', sortable: true, value: 'cpa_'},
+                            { text: 'roas',             align: 'start', sortable: true, value: 'roas', filter:value=>{
+                                if (!this.roas) return true
+                                return parseFloat(value) > parseFloat(this.roas)
+                            }},
+
+                        ]
+                    },
+                },
+                methods: {
+                    wildSearch (value, search, item) {
+                      console.log(`${value}, ${search}, ${item.id}`)
+
+                      if(value == null) return false;
+                      if(search == null) return false;
+                      if(typeof value != 'string') return false;
+
+                      if((''+item.spuName).toLocaleUpperCase().includes(search.toLocaleUpperCase())) return true;
+                      if((''+item.spuId  ).toLocaleUpperCase().includes(search.toLocaleUpperCase())) return true;
+
+
+                      return false;
+                    },
+                },
+            })
+        })
+        .catch(err=>console.log(err));
+    }
+
+    getSpuPerf();
+  </script>
+</body>

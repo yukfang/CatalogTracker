@@ -1,16 +1,11 @@
 {
   "dependencies": {
+    "dotenv": "^16.0.3",
+    "kick-off-koa": "^2.0.0",
     "koa": "^2.13.4",
-    "koa-bodyparser": "^4.3.0",
-    "koa-router": "^10.1.1"
-  },
-  "name": "yfa-koa",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "start": "node cbhelper.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": ""
+    "mysql2": "^2.3.3",
+    "pm2": "^5.2.2",
+    "sequelize": "^6.25.8",
+    "utf8": "^3.0.0"
+  }
 }

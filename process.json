@@ -1,0 +1,11 @@
+{
+    "watch": ["server", "client"],
+    "ignore_watch" : [
+        "node_modules",
+        "public/images",
+        "cache"
+    ],
+    "watch_options": {
+      "followSymlinks": false
+    }
+}
