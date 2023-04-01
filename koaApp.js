@@ -24,9 +24,12 @@ koaApp.use(async (ctx, next) => {
 
 koaApp.use(async (ctx, next) => {
     if (ctx.path === '/data') {
+        let order_id = ctx.headers['order_id']
+        // console.log(ctx.headers)
         ctx.body = {
-            "id" : 123,
-            "client" : "name of client"
+            // "id" : order_id || 'null',
+            "client" : `Client Name + ${order_id}`,
+            "owner" : "TSC Owner"
         }
     } else if (ctx.path === '/') {
          ctx.body = fs.readFileSync('index.html', {encoding:'utf8', flag:'r'});
