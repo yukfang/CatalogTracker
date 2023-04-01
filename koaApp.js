@@ -24,7 +24,10 @@ koaApp.use(async (ctx, next) => {
 
 koaApp.use(async (ctx, next) => {
     if (ctx.path === '/data') {
-        ctx.body = await getSpuPerf();
+        ctx.body = {
+            "id" : 123,
+            "client" : "name of client"
+        }
     } else if (ctx.path === '/') {
          ctx.body = fs.readFileSync('index.html', {encoding:'utf8', flag:'r'});
     } else {
