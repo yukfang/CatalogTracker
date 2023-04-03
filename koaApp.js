@@ -84,7 +84,20 @@ async function buildBody(detail, tag){
     /** Service Type */
     const category_1_name =  detail.category_1_name;
     console.log(`category name : ${category_1_name}`)
-    const srv_type = (category_1_name.toLowerCase().includes("catalog"))?("Inbound"):("Audit")
+    let srv_type = '';
+    if (detail.items.filter(r => r.label == "categorization").pop().content.category_1_name.toLowerCase().includes("catalog")) {
+        srv_type = "Inbound"
+    } else if (detail.items.filter(r => r.label == "categorization").pop().content.category_1_name.toLowerCase().includes("new request")) {
+        srv_type = "Audit"
+    } else {
+        if(category_1_name.toLowerCase().includes("catalog")) {
+            srv_type = "Inbound"
+        } else if (category_1_name.toLowerCase().includes("new request")) {
+            srv_type = "Audit"
+        } else {
+            srv_type = "UNKNOWN!!!"
+        }
+    }
 
     /** Ticket Open Time */
     const create_time = (new Date(detail.create_time*1000)).toISOString().split('T')[0];
@@ -92,7 +105,7 @@ async function buildBody(detail, tag){
     // const title = data.title,
     // items: data.items,
     const replies=  detail.replies;
-    const replies_items = detail.replies[0].items
+    // const replies_items = detail.replies[0].items
 
     /** Blocker */
     let   blocker = '';
