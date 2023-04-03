@@ -29,6 +29,8 @@ module.exports = async function() {
     }
 
     // console.log(response.status)
+    console.log(`fetch cookie... ${cookie.value}`)
+
     return cookie.value
  }
 

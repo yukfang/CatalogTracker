@@ -26,7 +26,6 @@ module.exports = async function athena_api_admin_order_detail(order_id){
     let body        = null;
 
 
-
     const response = (await proxying(method, endpoint, header, param, body, true));
     // console.log(response.data)
 

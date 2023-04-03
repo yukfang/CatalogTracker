@@ -2,11 +2,23 @@ const fs = require('fs');
 const getOrderDetail     = require('./utils/athena/detail')
 const getOrderTag     = require('./utils/athena/tag')
 
+const REGION_MAPPING = {
+    /**APAC */
+    "Japan"  : "APAC",
+    "SEA-AU" :  "APAC",
+    "SEA-ID" :  "APAC",
+
+    /** EUI */
+    "EU-DE" :   "EUI",
+
+    /** CNOB */
+    "OUTBOUND-CN"   : "CNOB",
+    "OUTBOUND-HK"   : "CNOB"
+}
 
 const Koa = require('koa');
 const koaApp = new Koa();
 var port = (process.env.PORT ||  80 );
-
 
 koaApp.use(async (ctx, next) => {
     const rt = ctx.response.get('X-Response-Time');
@@ -26,23 +38,13 @@ koaApp.use(async (ctx, next) => {
 
 koaApp.use(async (ctx, next) => {
     if (ctx.path === '/data') {
-        // let order_id_1 = ctx.headers['order_id']
         let order_id = `${ctx.query.order_id}`
 
-        // order_id = 1023821
-        // console.log(ctx.headers)
-        const detail = await getOrderDetail(order_id);
-        const tag = await getOrderTag(order_id);
-        let body = await buildBody(detail, tag);
-        // console.log(`resp = ${resp}`)
-        // console.log(resp)
+        const detail =  getOrderDetail(order_id);
+        const tag =  getOrderTag(order_id);
+        let body = await buildBody(await detail, await tag);
+
         ctx.body = body
-        // ctx.body = {
-        //     "client" : `Client Name + ${order_id}`,
-        //     "owner" : "TSC Owner"
-        // }
-
-
     } else if (ctx.path === '/') {
          ctx.body = fs.readFileSync('index.html', {encoding:'utf8', flag:'r'});
     } else {
@@ -78,6 +80,12 @@ async function buildBody(detail, tag){
     ]
     const country = detail.items.filter(r => regionLables.includes(r.label)).pop().content;
 
+    /** Region */
+    let region = country;
+    if(REGION_MAPPING.hasOwnProperty(country)) {
+        region = REGION_MAPPING[country]
+    }
+
     /** Current Follower */
     const follower = detail.follower;
 
@@ -101,6 +109,8 @@ async function buildBody(detail, tag){
 
     /** Ticket Open Time */
     const create_time = (new Date(detail.create_time*1000)).toISOString().split('T')[0];
+    /** Ticket Close Time */
+    const close_time = (detail.status==3)?((new Date(detail.update_time*1000)).toISOString().split('T')[0]):'';
 
     // const title = data.title,
     // items: data.items,
@@ -183,8 +193,10 @@ async function buildBody(detail, tag){
         client,
         status,
         country,
+        region,
         follower,
         create_time,
+        close_time,
         srv_type,
         blocker,
         dropoff,
