@@ -68,7 +68,8 @@ async function buildBody(detail){
 
     /** Service Type */
     const category_1_name =  detail.category_1_name;
-    const srv_type = (category_1_name.includes("catalog"))?("Inbound"):("Audit")
+    console.log(`category name : ${category_1_name}`)
+    const srv_type = (category_1_name.toLowerCase().includes("catalog"))?("Inbound"):("Audit")
 
     /** Ticket Open Time */
     const create_time = (new Date(detail.create_time*1000)).toISOString().split('T')[0];
@@ -97,19 +98,52 @@ async function buildBody(detail){
             for(let j = 0; j < items.length; j++) {
                 const item = items[j];
 
-                let blocker_matches = item.content.match(blocker_reg);
-                if(blocker_matches) {
-                    blocker = blocker_matches[2]
-                }
-
+                /** Product feedback */
                 let feedback_matches = item.content.match(feedback_reg);
                 if(feedback_matches) {
                     feedback = feedback_matches[2]
                 }
 
+                /** Client drop off reason */
                 let dropoff_matches = item.content.match(dropoff_reg);
                 if(dropoff_matches) {
                     dropoff = dropoff_matches[2]
+                }
+
+                /** Blockers */
+                let blocker_matches = item.content.match(blocker_reg);
+                if(blocker_matches) {
+                    const notes = blocker_matches[2];
+                    let issues = {
+                        signal: false,
+                        catalog: false,
+                        other: false,
+                    }
+                    if(notes.toLowerCase().includes('signal')) {
+                        issues.signal = true;
+                    }
+                    if(notes.toLowerCase().includes('pixel')) {
+                        issues.signal = true;
+                    }
+                    if(notes.toLowerCase().includes('catalog')) {
+                        issues.catalog = true;
+                    }
+                    if(notes.toLowerCase().includes('other')) {
+                        issues.other = true;
+                    }
+
+                    if(issues.signal == true && issues.catalog == true) {
+                        blocker = 'Signal+Catalog'
+                    } else if (issues.signal == true) {
+                        blocker = 'Signal Only'
+                    } else if (issues.catalog == true) {
+                        blocker = 'Catalog Only'
+                    } else if (issues.other == true) {
+                        blocker = 'Other Issue'
+                    } else {
+                        blocker = "No Major Issue"
+                    }
+                    console.log(`blocker = ${blocker}`)
                 }
             }
         }
@@ -118,6 +152,7 @@ async function buildBody(detail){
     }
 
     return JSON.stringify({
+        refresh: (new Date(Date.now())).toISOString(),
         client,
         country,
         follower,
