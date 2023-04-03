@@ -57,7 +57,7 @@ async function buildBody(detail, tag){
     let tags =  tag.map(t=>t.name)
     // console.log(tags)
     let status = ''
-    if(detail.status == 3) {
+    if(detail.status != 3) {
         status = "In-Progress"; // Ticket is still open, we consider this as in-progress
     } else {
         if(tags.includes("Out of Scope")) {
@@ -179,7 +179,7 @@ async function buildBody(detail, tag){
     }
 
     return JSON.stringify({
-        refresh: (new Date(Date.now())).toISOString(),
+        refresh: (new Date(Date.now())).toISOString().substring(0,20) + 'Z',
         client,
         status,
         country,
