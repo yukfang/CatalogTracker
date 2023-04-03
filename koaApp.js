@@ -51,7 +51,17 @@ koaApp.use(async (ctx, next) => {
 
 async function buildBody(detail){
     /** Client Name */
-    const client = '';
+    let client = '';
+    let country = "";
+    for(let i = 0; i < detail.items.length; i++) {
+        const item = detail.items[i];
+        if(item.label === 'GBS Country / Region') {
+            country = item.content
+        }
+        if(item.label === 'Advertiser / Client Name') {
+            client = item.content
+        }
+    }
 
     /** Current Follower */
     const follower = detail.follower;
@@ -109,6 +119,7 @@ async function buildBody(detail){
 
     return JSON.stringify({
         client,
+        country,
         follower,
         create_time,
         srv_type,
