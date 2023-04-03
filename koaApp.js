@@ -1,5 +1,7 @@
 const fs = require('fs');
 const getOrderDetail     = require('./utils/athena/detail')
+const getOrderTag     = require('./utils/athena/tag')
+
 
 const Koa = require('koa');
 const koaApp = new Koa();
@@ -29,8 +31,9 @@ koaApp.use(async (ctx, next) => {
 
         // order_id = 1023821
         // console.log(ctx.headers)
-        const resp = await getOrderDetail(order_id);
-        let body = await buildBody(resp);
+        const detail = await getOrderDetail(order_id);
+        const tag = await getOrderTag(order_id);
+        let body = await buildBody(detail, tag);
         // console.log(`resp = ${resp}`)
         // console.log(resp)
         ctx.body = body
@@ -49,19 +52,31 @@ koaApp.use(async (ctx, next) => {
     next();
 })
 
-async function buildBody(detail){
-    /** Client Name */
-    let client = '';
-    let country = "";
-    for(let i = 0; i < detail.items.length; i++) {
-        const item = detail.items[i];
-        if(item.label === 'GBS Country / Region') {
-            country = item.content
-        }
-        if(item.label === 'Advertiser / Client Name') {
-            client = item.content
+async function buildBody(detail, tag){
+    /** Tags map to Status */
+    let tags =  tag.map(t=>t.name)
+    // console.log(tags)
+    let status = ''
+    if(detail.status == 3) {
+        status = "In-Progress"; // Ticket is still open, we consider this as in-progress
+    } else {
+        if(tags.includes("Out of Scope")) {
+            status = "Out of Scope"
+        } else if(tags.includes("Completed - Optimal") || tags.includes("Completed - Not Optimal")) {
+            status = "Completed"
+        } else {
+            status = "Client Dropoff"
         }
     }
+
+    /** Client Name */
+    const client = detail.items.filter(r=> r.label.includes('Client Name') || r.label.includes('Advertiser name')).pop().content;
+
+    /** Country */
+    const regionLables = [
+        'Region', 'Country / Region', 'Client Region', 'Country/Region', 'GBS Country/Region', "GBS Country / Region"
+    ]
+    const country = detail.items.filter(r => regionLables.includes(r.label)).pop().content;
 
     /** Current Follower */
     const follower = detail.follower;
@@ -74,7 +89,6 @@ async function buildBody(detail){
     /** Ticket Open Time */
     const create_time = (new Date(detail.create_time*1000)).toISOString().split('T')[0];
 
-    const status = detail.status;
     // const title = data.title,
     // items: data.items,
     const replies=  detail.replies;
@@ -154,6 +168,7 @@ async function buildBody(detail){
     return JSON.stringify({
         refresh: (new Date(Date.now())).toISOString(),
         client,
+        status,
         country,
         follower,
         create_time,
@@ -161,7 +176,7 @@ async function buildBody(detail){
         blocker,
         dropoff,
         feedback,
-        status,
+
 
         delimeter: "------------------------------------------------",
         replies,
@@ -172,7 +187,7 @@ async function buildBody(detail){
 }
 
 async function init() {
-    console.log("init here ....");
+    console.log(`Server Init ---> ${(new Date(Date.now())).toISOString()}`);
 }
 
 module.exports = {
