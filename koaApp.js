@@ -179,7 +179,7 @@ async function buildBody(detail, tag){
     }
 
     return JSON.stringify({
-        refresh: (new Date(Date.now())).toISOString().substring(0,20) + 'Z',
+        refresh: (new Date(Date.now())).toISOString().substring(0,19) + 'Z',
         client,
         status,
         country,
