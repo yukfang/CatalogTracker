@@ -24,8 +24,10 @@ koaApp.use(async (ctx, next) => {
 
 koaApp.use(async (ctx, next) => {
     if (ctx.path === '/data') {
-        let order_id = ctx.headers['order_id']
-        order_id = 1023821
+        // let order_id_1 = ctx.headers['order_id']
+        let order_id = `${ctx.query.order_id}`
+
+        // order_id = 1023821
         // console.log(ctx.headers)
         const resp = await getOrderDetail(order_id);
         let body = await buildBody(resp);
@@ -48,6 +50,9 @@ koaApp.use(async (ctx, next) => {
 })
 
 async function buildBody(detail){
+    /** Client Name */
+    const client = '';
+
     /** Current Follower */
     const follower = detail.follower;
 
@@ -103,6 +108,7 @@ async function buildBody(detail){
     }
 
     return JSON.stringify({
+        client,
         follower,
         create_time,
         srv_type,
@@ -111,6 +117,7 @@ async function buildBody(detail){
         feedback,
         status,
 
+        delimeter: "------------------------------------------------",
         replies,
 
 
