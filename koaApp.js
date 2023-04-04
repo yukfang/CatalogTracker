@@ -19,17 +19,18 @@ const REGION_MAPPING = {
     "NORTH AMERICA" : "NA",
 
     /** LATAM */
-    "LATAM-BR"      : "LATAM",
-    "LATAM-MX"      : "LATAM",
+    // "LATAM-BR"      : "LATAM",
+    // "LATAM-MX"      : "LATAM",
 
     /**APAC */
     "Japan"  :  "APAC",
     "SEA-AU" :  "APAC",
     "SEA-ID" :  "APAC",
+    "OUTBOUND-HK"   : "APAC",
+
 
     /** CNOB */
-    "OUTBOUND-CN"   : "CNOB",
-    "OUTBOUND-HK"   : "CNOB"
+    "OUTBOUND-CN"   : "CNOB"
 }
 
 const Koa = require('koa');
@@ -56,9 +57,12 @@ koaApp.use(async (ctx, next) => {
     if (ctx.path === '/data') {
         let order_id = `${ctx.query.order_id}`
 
-        const detail =  getOrderDetail(order_id);
-        const tag =  getOrderTag(order_id);
-        let body = await buildBody(await detail, await tag);
+        // const tag = await getOrderTag(order_id);
+        // const detail = await getOrderDetail(order_id);
+        // let body = await buildBody( detail,  tag);
+
+        let [detail, tag] = await Promise.all([getOrderDetail(order_id), getOrderTag(order_id)])
+        let body = await buildBody( detail,  tag);
 
         ctx.body = body
     } else if (ctx.path === '/') {
@@ -109,7 +113,7 @@ async function buildBody(detail, tag){
     } else if( country.includes("NORTHAMERICA-")) {
         region = "NA"
     } else if (country.includes("LATAM-")) {
-        regopm = "LATAM"
+        region = "LATAM"
     } else if (country.includes("OUTBOUND-")) {
         region = "CNOB"
     }
@@ -139,6 +143,10 @@ async function buildBody(detail, tag){
     const create_time = (new Date(detail.create_time*1000)).toISOString().split('T')[0];
     /** Ticket Close Time */
     const close_time = (detail.status==3)?((new Date(detail.update_time*1000)).toISOString().split('T')[0]):'';
+    /** Ticket Duration */
+    const duration = (close_time == '')?'':(((parseInt(detail.update_time)-parseInt(detail.create_time))) / 3600 / 24).toFixed(2)
+    console.log((((parseInt(detail.update_time)-parseInt(detail.create_time))) / 3600 / 24).toFixed(2))
+
 
     // const title = data.title,
     // items: data.items,
@@ -225,6 +233,7 @@ async function buildBody(detail, tag){
         follower,
         create_time,
         close_time,
+        duration,
         srv_type,
         blocker,
         dropoff,
