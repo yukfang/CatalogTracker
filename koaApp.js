@@ -3,10 +3,7 @@ const getOrderDetail     = require('./utils/athena/detail')
 const getOrderTag     = require('./utils/athena/tag')
 
 const REGION_MAPPING = {
-    /**APAC */
-    "Japan"  : "APAC",
-    "SEA-AU" :  "APAC",
-    "SEA-ID" :  "APAC",
+
 
     /** EUI */
     "EU-DE" :   "EUI",
@@ -16,6 +13,19 @@ const REGION_MAPPING = {
 
     /** METAP */
     "MENA-AE" : "METAP",
+
+
+    /** NA */
+    "NORTH AMERICA" : "NA",
+
+    /** LATAM */
+    "LATAM-BR"      : "LATAM",
+    "LATAM-MX"      : "LATAM",
+
+    /**APAC */
+    "Japan"  :  "APAC",
+    "SEA-AU" :  "APAC",
+    "SEA-ID" :  "APAC",
 
     /** CNOB */
     "OUTBOUND-CN"   : "CNOB",
@@ -100,6 +110,8 @@ async function buildBody(detail, tag){
         region = "NA"
     } else if (country.includes("LATAM-")) {
         regopm = "LATAM"
+    } else if (country.includes("OUTBOUND-")) {
+        region = "CNOB"
     }
 
     /** Current Follower */
