@@ -10,6 +10,12 @@ const REGION_MAPPING = {
 
     /** EUI */
     "EU-DE" :   "EUI",
+    "EU-GB" :   "EUI",
+    "EU-IT" :   "EUI",
+    "EU-FR" :   "EUI",
+
+    /** METAP */
+    "MENA-AE" : "METAP",
 
     /** CNOB */
     "OUTBOUND-CN"   : "CNOB",
@@ -84,6 +90,16 @@ async function buildBody(detail, tag){
     let region = country;
     if(REGION_MAPPING.hasOwnProperty(country)) {
         region = REGION_MAPPING[country]
+    } else if(country.includes("EU-")) {
+        region = "EUI"
+    } else if (country.includes("MENA-")) {
+        region = "METAP"
+    } else if (country.includes("SEA-")) {
+        region = "APAC"
+    } else if( country.includes("NORTHAMERICA-")) {
+        region = "NA"
+    } else if (country.includes("LATAM-")) {
+        regopm = "LATAM"
     }
 
     /** Current Follower */
@@ -204,9 +220,6 @@ async function buildBody(detail, tag){
 
 
         delimeter: "------------------------------------------------",
-        replies,
-
-
         detail
     }, null, 2)
 }
