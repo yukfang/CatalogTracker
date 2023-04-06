@@ -1,0 +1,21 @@
+/** Kate */
+[1017785][blocker][pixel]
+[1022680][blocker][no major issues]
+[1024650][dropoff][client did not make the changes]
+[1025029][blocker][pixel]
+[1025069][blocker][pixel]
+[1032065][dropoff][client will focused on upper funnel campaigns]
+[1032081][blocker][pixel]
+[1032114][dropoff][client not interested]
+[1032975][blocker][catalog]
+[1084503][blocker][other issues]
+[1087643][blocker][other issues]
+[1091520][blocker][other issues]
+[1051271][blocker][pixel and catalog]
+[1005769][blocker][catalog]
+
+/** Vanessa */
+[1114051][blocker][pixel and catalog]
+[1114042][blocker][pixel]
+[1114036][blocker][pixel]
+[1114018][blocker][pixel]

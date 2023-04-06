@@ -1,6 +1,7 @@
-const fs = require('fs');
-const getOrderDetail     = require('./utils/athena/detail')
-const getOrderTag     = require('./utils/athena/tag')
+const fs                = require('fs');
+const getOrderDetail    = require('./utils/athena/detail')
+const getOrderTag       = require('./utils/athena/tag')
+const getLocal          = require('./localNotes')
 
 const REGION_MAPPING = {
 
@@ -147,13 +148,9 @@ async function buildBody(detail, tag){
     const duration = (close_time == '')?'':(((parseInt(detail.update_time)-parseInt(detail.create_time))) / 3600 / 24).toFixed(2)
     console.log((((parseInt(detail.update_time)-parseInt(detail.create_time))) / 3600 / 24).toFixed(2))
 
-
-    // const title = data.title,
-    // items: data.items,
     const replies=  detail.replies;
-    // const replies_items = detail.replies[0].items
 
-    /** Blocker */
+    /** Blocker, Dropoff, Feedback */
     let   blocker = '';
     let   feedback = '';
     let   dropoff = '';
@@ -186,37 +183,7 @@ async function buildBody(detail, tag){
                 /** Blockers */
                 let blocker_matches = item.content.match(blocker_reg);
                 if(blocker_matches) {
-                    const notes = blocker_matches[2];
-                    let issues = {
-                        signal: false,
-                        catalog: false,
-                        other: false,
-                    }
-                    if(notes.toLowerCase().includes('signal')) {
-                        issues.signal = true;
-                    }
-                    if(notes.toLowerCase().includes('pixel')) {
-                        issues.signal = true;
-                    }
-                    if(notes.toLowerCase().includes('catalog')) {
-                        issues.catalog = true;
-                    }
-                    if(notes.toLowerCase().includes('other')) {
-                        issues.other = true;
-                    }
-
-                    if(issues.signal == true && issues.catalog == true) {
-                        blocker = 'Signal+Catalog'
-                    } else if (issues.signal == true) {
-                        blocker = 'Signal Only'
-                    } else if (issues.catalog == true) {
-                        blocker = 'Catalog Only'
-                    } else if (issues.other == true) {
-                        blocker = 'Other Issue'
-                    } else {
-                        blocker = "No Major Issue"
-                    }
-                    console.log(`blocker = ${blocker}`)
+                    blocker = blocker_matches[2];
                 }
             }
         }
@@ -224,6 +191,56 @@ async function buildBody(detail, tag){
         console.log('no match')
     }
 
+    /** Append & Replace with Local File */
+    const localNotes = await getLocal();
+    for(let i = 0; i < localNotes.length; i++) {
+        const note = localNotes[i];
+        if(note.includes(detail.id)) {
+            const items = note.substring(1, note.length-1 ).split('][')
+            if(items[1].toLowerCase() == 'blocker') {
+                blocker = items[2]
+            } else if(items[1].toLowerCase() == 'feedback') {
+                feedback = items[2]
+            } else if(items[1].toLowerCase() == 'dropoff') {
+                dropoff = items[2]
+            }
+        }
+    }
+
+    /** Normalize Blocker  */
+    let issues = {
+        signal: false,
+        catalog: false,
+        other: false,
+    }
+    if(blocker.toLowerCase().includes('signal')) {
+        issues.signal = true;
+    }
+    if(blocker.toLowerCase().includes('pixel')) {
+        issues.signal = true;
+    }
+    if(blocker.toLowerCase().includes('catalog')) {
+        issues.catalog = true;
+    }
+    if(blocker.toLowerCase().includes('other')) {
+        issues.other = true;
+    }
+
+    if(issues.signal == true && issues.catalog == true) {
+        blocker = 'Signal+Catalog'
+    } else if (issues.signal == true) {
+        blocker = 'Signal Only'
+    } else if (issues.catalog == true) {
+        blocker = 'Catalog Only'
+    } else if (issues.other == true) {
+        blocker = 'Other Issue'
+    } else {
+        blocker = "No Major Issue"
+    }
+    console.log(`blocker = ${blocker}`)
+
+
+    /** Return to request */
     return JSON.stringify({
         refresh: (new Date(Date.now())).toISOString().substring(0,19) + 'Z',
         client,
