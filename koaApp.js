@@ -198,7 +198,7 @@ async function buildBody(detail, tag){
         if(note.includes(detail.id)) {
             const items = note.substring(1, note.length-1 ).split('][')
             if(items[1].toLowerCase() == 'blocker') {
-                blocker = items[2]
+                blocker = items[2].trim();
             } else if(items[1].toLowerCase() == 'feedback') {
                 feedback = items[2]
             } else if(items[1].toLowerCase() == 'dropoff') {
@@ -212,6 +212,7 @@ async function buildBody(detail, tag){
         signal: false,
         catalog: false,
         other: false,
+        noissue: false
     }
     if(blocker.toLowerCase().includes('signal')) {
         issues.signal = true;
@@ -225,6 +226,9 @@ async function buildBody(detail, tag){
     if(blocker.toLowerCase().includes('other')) {
         issues.other = true;
     }
+    if(blocker.toLowerCase().includes('no')) {
+        issues.noissue = true;
+    }
 
     if(issues.signal == true && issues.catalog == true) {
         blocker = 'Signal+Catalog'
@@ -234,8 +238,10 @@ async function buildBody(detail, tag){
         blocker = 'Catalog Only'
     } else if (issues.other == true) {
         blocker = 'Other Issue'
-    } else {
+    } else if(issues.noissue == true){
         blocker = "No Major Issue"
+    } else {
+        blocker = ''
     }
     console.log(`blocker = ${blocker}`)
 
