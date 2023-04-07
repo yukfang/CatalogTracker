@@ -271,6 +271,7 @@ async function buildBody(detail, tag){
         blocker,
         dropoff,
         feedback,
+        summary,
 
 
         delimeter: "------------------------------------------------",
