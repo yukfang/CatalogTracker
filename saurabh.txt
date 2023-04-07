@@ -20,3 +20,5 @@
 [1049045][blocker][catalog]
 [1049045][summary][Guide client to complete the catalog set up using Google Merchant Center]
 
+/** Temp Use as more information is required from GBS/Client*/
+[1115713][blocker][catalog]
