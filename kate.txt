@@ -18,6 +18,7 @@
 [1073480][blocker][other issue]
 [996007][blocker][other issue]
 [1032114][blocker][catalog]
+[1022812][blocker][catalog]
 
 /** Vanessa */
 [1114051][blocker][pixel and catalog]
@@ -26,3 +27,14 @@
 [1114018][blocker][pixel]
 [1011891][blocker][pixel]
 [1011891][dropoff][client doesn't follow suggestion to fix]
+[995524][blocker][pixel]
+[995524][summary][help client to fix the parameter issues]
+
+/** Miguel */
+[1043563][blocker][catalog]
+[1043563][summary][client uses wrong way to uplaod product, educate and help client use the correct way to upload product]
+
+
+/** Alusine */
+[1017075][blocker][pixel]
+[1017075][dropoff][client didn't make changes to fix the parameter issue]
