@@ -11,9 +11,8 @@ async function readLocal(filename) {
 }
 
 async function getLocal() {
-    const file1 = 'kate.txt'
-
-    const notes = readLocal(file1)
+    let  notes = [];
+    notes = notes.concat(await readLocal('kate.txt')).concat(await readLocal('saurabh.txt')).concat(await readLocal('shiwei.txt'))
 
     // console.log(notes)
 

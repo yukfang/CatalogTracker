@@ -1,0 +1,22 @@
+/** Saurabh */
+[987629][blocker][catalog]
+[987629][summary][fixed the catalog uploading issue]
+[1061926][blocker][catalog]
+[1061926][summary][guide client to upload missing contents in catalog]
+
+/** Robbie */
+[1042187][blocker][signal]
+[1042187][summary][]
+[1029806][blocker][signal]
+[1029806][summary][Guide client to fix the event triggering issue]
+
+/** */
+[1115245][blocker][no major issue]
+[1042111][summary][the catalog match rate for 3 events are all above 70%]
+
+/** Renato */
+[1030149][blocker][catalog]
+[1030149][summary][catalog is frozen; suggest client to craete new catalog or campaign]
+[1049045][blocker][catalog]
+[1049045][summary][Guide client to complete the catalog set up using Google Merchant Center]
+
