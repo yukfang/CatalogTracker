@@ -10,8 +10,8 @@
 [1029806][blocker][signal]
 [1029806][summary][Guide client to fix the event triggering issue]
 
-/** */
-[1115245][blocker][no major issue]
+/** Carly */
+[1115245][Blocker][no major issue]
 [1042111][summary][the catalog match rate for 3 events are all above 70%]
 
 /** Renato */

@@ -169,19 +169,19 @@ async function buildBody(detail, tag){
                 const item = items[j];
 
                 /** Product feedback */
-                let feedback_matches = item.content.match(feedback_reg);
+                let feedback_matches = item.content.toLowerCase().match(feedback_reg);
                 if(feedback_matches) {
                     feedback = feedback_matches[2]
                 }
 
                 /** Client drop off reason */
-                let dropoff_matches = item.content.match(dropoff_reg);
+                let dropoff_matches = item.content.toLowerCase().match(dropoff_reg);
                 if(dropoff_matches) {
                     dropoff = dropoff_matches[2]
                 }
 
                 /** Blockers */
-                let blocker_matches = item.content.match(blocker_reg);
+                let blocker_matches = item.content.toLowerCase().match(blocker_reg);
                 if(blocker_matches) {
                     blocker = blocker_matches[2];
                 }
