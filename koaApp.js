@@ -154,11 +154,13 @@ async function buildBody(detail, tag){
     let   blocker = '';
     let   feedback = '';
     let   dropoff = '';
+    let summary = '';
 
     if(replies) {
         const blocker_reg    = /(\[blocker\]\[)(.*)(\])/m
         const feedback_reg   = /(\[feedback\]\[)(.*)(\])/m
         const dropoff_reg    = /(\[dropoff\]\[)(.*)(\])/m
+        const summary_reg    = /(\[summary\]\[)(.*)(\])/m
 
         for(let k = 0; k < replies.length; k++) {
             const reply = replies[k];
@@ -185,6 +187,12 @@ async function buildBody(detail, tag){
                 if(blocker_matches) {
                     blocker = blocker_matches[2];
                 }
+
+                /** Sumary */
+                let summary_matches = item.content.toLowerCase().match(blocker_reg);
+                if(summary_matches) {
+                    summary = summary_matches[2];
+                }
             }
         }
     } else {
@@ -203,6 +211,8 @@ async function buildBody(detail, tag){
                 feedback = items[2]
             } else if(items[1].toLowerCase() == 'dropoff') {
                 dropoff = items[2]
+            } else if(items[1].toLowerCase() == 'summary') {
+                summary = items[2]
             }
         }
     }
