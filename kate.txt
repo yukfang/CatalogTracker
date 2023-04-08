@@ -22,6 +22,11 @@
 [1031013][summary][Help client to solve catalog set up and install pixel]
 [1025082][summary][Guide client to fix pixel issues and educate client how to craete catalog and start campaign]
 [1017785][summary][Viewcontent is not installed in correct place; CP trigger twice; Missing contents in Catalog; Help client to fix these issues;]
+[1025069][summary][Missing products in catalog, help client to resole it]
+[1032081][summary][Report same events multiple times via different channels(pixel/eAPI/shopify), provide solution and help client resolve this issue]
+[1060205][summary][Missing content_id in ATC, missing content_type in CP, help client resolve the issue]
+[995966][summary][client follow suggestion to resolve all pixel issues except AM]
+
 
 /** Vanessa */
 [1114051][blocker][pixel and catalog]
