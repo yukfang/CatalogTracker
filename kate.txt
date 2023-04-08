@@ -26,6 +26,9 @@
 [1032081][summary][Report same events multiple times via different channels(pixel/eAPI/shopify), provide solution and help client resolve this issue]
 [1060205][summary][Missing content_id in ATC, missing content_type in CP, help client resolve the issue]
 [995966][summary][client follow suggestion to resolve all pixel issues except AM]
+[1022812][summary][client looks at wrong catalog. Point out the correct catalog for client, and get match rate to 100%]
+[1025029][summary][some events fire duplicated; help client resolve the issue and enable AM]
+
 
 
 /** Vanessa */
