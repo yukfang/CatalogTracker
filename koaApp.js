@@ -189,7 +189,7 @@ async function buildBody(detail, tag){
                 }
 
                 /** Sumary */
-                let summary_matches = item.content.toLowerCase().match(blocker_reg);
+                let summary_matches = item.content.toLowerCase().match(summary_reg);
                 if(summary_matches) {
                     summary = summary_matches[2];
                 }
