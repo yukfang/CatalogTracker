@@ -19,6 +19,7 @@
 [996007][blocker][other issue]
 [1032114][blocker][catalog]
 [1022812][blocker][catalog]
+[1031013][summary][Help client to solve catalog set up and install pixel]
 
 /** Vanessa */
 [1114051][blocker][pixel and catalog]

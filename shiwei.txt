@@ -1,0 +1,5 @@
+[1005033][blocker][catalog]
+[1005033][summary][Help client complete catalog integration and setup.]
+
+[1041535][summary][Solve catalog integration and UTM params setup]
+[1084032][summary][Rsolve UTM parameter issue for client to unblock the VSA campaign]
