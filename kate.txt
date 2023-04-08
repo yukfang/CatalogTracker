@@ -20,6 +20,8 @@
 [1032114][blocker][catalog]
 [1022812][blocker][catalog]
 [1031013][summary][Help client to solve catalog set up and install pixel]
+[1025082][summary][Guide client to fix pixel issues and educate client how to craete catalog and start campaign]
+[1017785][summary][Viewcontent is not installed in correct place; CP trigger twice; Missing contents in Catalog; Help client to fix these issues;]
 
 /** Vanessa */
 [1114051][blocker][pixel and catalog]
