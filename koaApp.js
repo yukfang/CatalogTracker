@@ -95,6 +95,12 @@ async function buildBody(detail, tag){
     /** Client Name */
     const client = detail.items.filter(r=> r.label.includes('Client Name') || r.label.includes('Advertiser name')).pop().content;
 
+    /** ADV ID */
+    const adv_id = detail.items.filter(r=> r.label.includes('Ad Account ID')).pop().content;
+
+
+
+
     /** Country */
     const regionLables = [
         'Region', 'Country / Region', 'Client Region', 'Country/Region', 'GBS Country/Region', "GBS Country / Region"
@@ -260,6 +266,7 @@ async function buildBody(detail, tag){
     return JSON.stringify({
         refresh: (new Date(Date.now())).toISOString().substring(0,19) + 'Z',
         client,
+        adv_id,
         status,
         country,
         region,
@@ -275,7 +282,7 @@ async function buildBody(detail, tag){
 
 
         delimeter: "------------------------------------------------",
-        detail
+        detail : (process.env.PLATFORM == 'FAAS')?"omitted":detail
     }, null, 2)
 }
 
