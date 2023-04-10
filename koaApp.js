@@ -96,10 +96,11 @@ async function buildBody(detail, tag){
     const client = detail.items.filter(r=> r.label.includes('Client Name') || r.label.includes('Advertiser name')).pop().content;
 
     /** ADV ID */
-    const adv_id = detail.items.filter(r=> r.label.includes('Ad Account ID')).pop().content;
-
-
-
+    const adv_id = detail.items.filter(r=> r.label.includes('Ad Account ID')).pop().content.toString();
+    // if(detail.id == '1031013') {
+    //     console.log(`adv_id: `)
+    //     console.log(detail.items.filter(r=> r.label.includes('Ad Account ID')).pop().content.toString())
+    // }
 
     /** Country */
     const regionLables = [
