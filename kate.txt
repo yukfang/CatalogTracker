@@ -28,6 +28,11 @@
 [995966][summary][client follow suggestion to resolve all pixel issues except AM]
 [1022812][summary][client looks at wrong catalog. Point out the correct catalog for client, and get match rate to 100%]
 [1025029][summary][some events fire duplicated; help client resolve the issue and enable AM]
+[1005769][summary][dropoff due to no engagement]
+[1022680][summary][sales asked a general question, provided answer but no further engagement]
+[1048708][blocker][pixel]
+
+
 
 
 
@@ -44,7 +49,14 @@
 /** Miguel */
 [1043563][blocker][catalog]
 [1043563][summary][client uses wrong way to uplaod product, educate and help client use the correct way to upload product]
-
+[1041584][blocker][catalog]
+[1041584][summary][no engagement > 60d]
+[1050587][blocker][catalog]
+[1050587][summary][client asks some general questions on catalog, content_id, sku_id. No further engagement]
+[1060952][blocker][others]
+[1060952][summary][gbs closed directly the ticket after creating]
+[1064890][blocker][catalog]
+[1064890][summary][SE helps to provide all products info to client. No further engagement]
 
 /** Alusine */
 [1017075][blocker][pixel]
