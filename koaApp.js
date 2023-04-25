@@ -161,13 +161,16 @@ async function buildBody(detail, tag){
     let   blocker = '';
     let   feedback = '';
     let   dropoff = '';
-    let summary = '';
+    let   summary = '';
+    let   insights = ''
 
     if(replies) {
         const blocker_reg    = /(\[blocker\]\[)(.*)(\])/m
         const feedback_reg   = /(\[feedback\]\[)(.*)(\])/m
         const dropoff_reg    = /(\[dropoff\]\[)(.*)(\])/m
         const summary_reg    = /(\[summary\]\[)(.*)(\])/m
+        const insights_reg   = /(\[insights\]\[)(.*)(\])/m
+
 
         for(let k = 0; k < replies.length; k++) {
             const reply = replies[k];
@@ -200,6 +203,12 @@ async function buildBody(detail, tag){
                 if(summary_matches) {
                     summary = summary_matches[2];
                 }
+
+                /** Insights */
+                let insights_matches = item.content.toLowerCase().match(summary_reg);
+                if(insights_matches) {
+                    insights = insights_matches[2];
+                }
             }
         }
     } else {
@@ -220,6 +229,8 @@ async function buildBody(detail, tag){
                 dropoff = items[2]
             } else if(items[1].toLowerCase() == 'summary') {
                 summary = items[2]
+            } else if(items[1].toLowerCase() == 'insights') {
+                insights = items[2]
             }
         }
     }
@@ -280,6 +291,7 @@ async function buildBody(detail, tag){
         dropoff,
         feedback,
         summary,
+        insights,
 
 
         delimeter: "------------------------------------------------",
