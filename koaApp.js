@@ -83,13 +83,13 @@ async function buildBody(detail, tag){
     if(detail.status != 3) {
         status = "In-Progress"; // Ticket is still open, we consider this as in-progress
     } else {
-        if(tags.includes("Out of Scope")) {
-            status = "Out of Scope"
-        } else if(tags.includes("Completed - Optimal") || tags.includes("Completed - Not Optimal")) {
+        if(tags.includes("Completed - Optimal") || tags.includes("Completed - Not Optimal")) {
             status = "Completed"
         } else if(tags.includes("Question Answered")  ) {
             status = "Generic Questions Only"
-        } else {
+        } else if(tags.includes("Out of Scope")) {
+            status = "Out of Scope"
+        } else  {
             status = "Client Dropoff"
         }
     }
