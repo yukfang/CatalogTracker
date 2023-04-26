@@ -87,6 +87,8 @@ async function buildBody(detail, tag){
             status = "Out of Scope"
         } else if(tags.includes("Completed - Optimal") || tags.includes("Completed - Not Optimal")) {
             status = "Completed"
+        } else if(tags.includes("Question Answered")  ) {
+            status = "Generic Questions Only"
         } else {
             status = "Client Dropoff"
         }
