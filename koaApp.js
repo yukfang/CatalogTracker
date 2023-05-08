@@ -207,7 +207,7 @@ async function buildBody(detail, tag){
                 }
 
                 /** Insights */
-                let insights_matches = item.content.toLowerCase().match(summary_reg);
+                let insights_matches = item.content.toLowerCase().match(insights_reg);
                 if(insights_matches) {
                     insights = insights_matches[2];
                 }
