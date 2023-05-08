@@ -1,14 +1,19 @@
+
 /** Saurabh */
 [987629][blocker][catalog]
 [987629][summary][fixed the catalog uploading issue]
 [1061926][blocker][catalog]
 [1061926][summary][guide client to upload missing contents in catalog]
+[1000457][dropoff][GBS no engagement > 60d after creating tickets]
+[1020524][dropoff][GBS no engagement > 60d after creating tickets]
+[1029725][dropoff][GBS no engagement > 60d after creating tickets]  // ??? not sure 
 
 /** Robbie */
 [1042187][blocker][signal]
 [1042187][summary][Help client to resolve the match rate issue]
 [1029806][blocker][signal]
 [1029806][summary][Guide client to fix the event triggering issue]
+[1025595][dropoff][GBS no engagement > 60d after creating tickets]
 
 /** Carly */
 [1115245][Blocker][no major issue]
@@ -25,3 +30,4 @@
 
 /** Temp Use as more information is required from GBS/Client*/
 [1115713][blocker][catalog]
+

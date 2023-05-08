@@ -12,7 +12,7 @@ async function readLocal(filename) {
 
 async function getLocal() {
     let  notes = [];
-    notes = notes.concat(await readLocal('kate.txt')).concat(await readLocal('saurabh.txt')).concat(await readLocal('shiwei.txt'))
+    notes = notes.concat(await readLocal('kata.txt')).concat(await readLocal('saurabh.txt')).concat(await readLocal('shiwei.txt'))
 
     // console.log(notes)
 
