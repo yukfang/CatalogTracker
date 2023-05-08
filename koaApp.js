@@ -3,9 +3,22 @@ const getOrderDetail    = require('./utils/athena/detail')
 const getOrderTag       = require('./utils/athena/tag')
 const getLocal          = require('./localNotes')
 
+const MONTH_MAPPING = {
+    "01" : "Jan",
+    "02" : "Feb",
+    "03" : "Mar",
+    "04" : "Apr",
+    "05" : "May",
+    "06" : "Jun",
+    "07" : "Jul",
+    "08" : "Aug",
+    "09" : "Sept",
+    "10" : "Oct",
+    "11" : "Nov",
+    "12" : "Dec",
+}
+
 const REGION_MAPPING = {
-
-
     /** EUI */
     "EU-DE" :   "EUI",
     "EU-GB" :   "EUI",
@@ -150,9 +163,13 @@ async function buildBody(detail, tag){
     }
 
     /** Ticket Open Time */
-    const create_time = (new Date(detail.create_time*1000)).toISOString().split('T')[0];
+    const create_time  = (new Date(detail.create_time*1000)).toISOString().split('T')[0];
+    // console.log(create_time.substring(5, 7))
+    // console.log(MONTH_MAPPING["04"])
+    const create_month = MONTH_MAPPING[create_time.substring(5, 7)]
     /** Ticket Close Time */
     const close_time = (detail.status==3)?((new Date(detail.update_time*1000)).toISOString().split('T')[0]):'';
+    const close_month = MONTH_MAPPING[close_time.substring(5, 7)]
     /** Ticket Duration */
     const duration = (close_time == '')?'':(((parseInt(detail.update_time)-parseInt(detail.create_time))) / 3600 / 24).toFixed(2)
     console.log((((parseInt(detail.update_time)-parseInt(detail.create_time))) / 3600 / 24).toFixed(2))
@@ -286,7 +303,9 @@ async function buildBody(detail, tag){
         region,
         follower,
         create_time,
+        create_month,
         close_time,
+        close_month,
         duration,
         srv_type,
         blocker,
