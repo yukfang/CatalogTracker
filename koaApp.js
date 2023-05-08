@@ -169,7 +169,7 @@ async function buildBody(detail, tag){
     const create_month = MONTH_MAPPING[create_time.substring(5, 7)]
     /** Ticket Close Time */
     const close_time = (detail.status==3)?((new Date(detail.update_time*1000)).toISOString().split('T')[0]):'';
-    const close_month = MONTH_MAPPING[close_time.substring(5, 7)]
+    const close_month = '' + MONTH_MAPPING[close_time.substring(5, 7)]
     /** Ticket Duration */
     const duration = (close_time == '')?'':(((parseInt(detail.update_time)-parseInt(detail.create_time))) / 3600 / 24).toFixed(2)
     console.log((((parseInt(detail.update_time)-parseInt(detail.create_time))) / 3600 / 24).toFixed(2))
