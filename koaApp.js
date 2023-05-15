@@ -96,13 +96,19 @@ async function buildBody(detail, tag){
     if(detail.status != 3) {
         status = "In-Progress"; // Ticket is still open, we consider this as in-progress
     } else {
-        if(tags.includes("Completed - Optimal") || tags.includes("Completed - Not Optimal")) {
-            status = "Completed"
-        } else if(tags.includes("Question Answered")  ) {
-            status = "Generic Questions Only"
+        if(tags.includes('Open Status')) {
+            status = 'Unknown'
         } else if(tags.includes("Out of Scope")) {
             status = "Out of Scope"
-        } else  {
+        } else if (tags.includes("Closed - With Successful Adoption")) {
+            staus = "Successful Adoption"
+        } else if (tags.includes("Closed - No Adoption Improvement")) {
+            status = "No Adoption"
+        } else if(tags.includes("Completed - Optimal") || tags.includes("Completed - Not Optimal")) {
+            staus = "Successful Adoption"
+        } else if(tags.includes("Question Answered")  ) {
+            status = "No Adoption"
+        }  else  {
             status = "Client Dropoff"
         }
     }
@@ -146,7 +152,7 @@ async function buildBody(detail, tag){
 
     /** Service Type */
     const category_1_name =  detail.category_1_name;
-    console.log(`category name : ${category_1_name}`)
+    // console.log(`category name : ${category_1_name}`)
     let srv_type = '';
     if (detail.items.filter(r => r.label == "categorization").pop().content.category_1_name.toLowerCase().includes("catalog")) {
         srv_type = "Inbound"
@@ -172,7 +178,7 @@ async function buildBody(detail, tag){
     const close_month = ' ' + MONTH_MAPPING[close_time.substring(5, 7)]
     /** Ticket Duration */
     const duration = (close_time == '')?'':(((parseInt(detail.update_time)-parseInt(detail.create_time))) / 3600 / 24).toFixed(2)
-    console.log((((parseInt(detail.update_time)-parseInt(detail.create_time))) / 3600 / 24).toFixed(2))
+    // console.log((((parseInt(detail.update_time)-parseInt(detail.create_time))) / 3600 / 24).toFixed(2))
 
     const replies=  detail.replies;
 
@@ -290,7 +296,7 @@ async function buildBody(detail, tag){
     } else {
         blocker = ''
     }
-    console.log(`blocker = ${blocker}`)
+    // console.log(`blocker = ${blocker}`)
 
 
     /** Return to request */
