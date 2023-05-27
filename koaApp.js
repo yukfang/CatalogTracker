@@ -76,6 +76,9 @@ koaApp.use(async (ctx, next) => {
         // let body = await buildBody( detail,  tag);
 
         let [detail, tag] = await Promise.all([getOrderDetail(order_id), getOrderTag(order_id)])
+
+        // console.log(tag)
+
         let body = await buildBody( detail,  tag);
 
         ctx.body = body
@@ -100,12 +103,12 @@ async function buildBody(detail, tag){
             status = 'Unknown'
         } else if(tags.includes("Out of Scope")) {
             status = "Out of Scope"
-        } else if (tags.includes("Closed - With Successful Adoption")) {
-            staus = "Successful Adoption"
+        } else if (tags.includes("Closed  - With Successful Adoption")) {
+            status = "Successful Adoption"
         } else if (tags.includes("Closed - No Adoption Improvement")) {
             status = "No Adoption"
         } else if(tags.includes("Completed - Optimal") || tags.includes("Completed - Not Optimal")) {
-            staus = "Successful Adoption"
+            status = "Successful Adoption"
         } else if(tags.includes("Question Answered")  ) {
             status = "No Adoption"
         }  else  {
