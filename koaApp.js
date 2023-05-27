@@ -199,6 +199,9 @@ async function buildBody(detail, tag){
         const summary_reg    = /(\[summary\]\[)(.*)(\])/m
         const insights_reg   = /(\[insights\]\[)(.*)(\])/m
 
+        const conclusion_reg   = /(.*)(\[conclusion\])(.*)/m
+
+
 
         for(let k = 0; k < replies.length; k++) {
             const reply = replies[k];
@@ -236,6 +239,23 @@ async function buildBody(detail, tag){
                 let insights_matches = item.content.toLowerCase().match(insights_reg);
                 if(insights_matches) {
                     insights = insights_matches[2];
+                }
+
+                /** Conclusion */
+                let conclusion_matches = item.content.toLowerCase().match(conclusion_reg)
+                console.log(item.content)
+                if(conclusion_matches) {
+                    console.log(conclusion_matches)
+                    console.log(conclusion_matches[2])
+
+                    const conclusion = conclusion_matches[3]
+                                                        .replaceAll('&nbsp;', '')
+                                                        .replaceAll('<strong>', '').replaceAll('</strong>', '')
+                                                        .replaceAll('<br>', ' ').replaceAll('</br>', ' ')
+                                                        .replaceAll('<span>', '').replaceAll('</span>', '')
+                                                        .replaceAll('<p>', '').replaceAll('</p>', '')
+                                                        .replaceAll(/(<span )(.*)(>)/g, ' ')
+                    console.log(conclusion)
                 }
             }
         }
