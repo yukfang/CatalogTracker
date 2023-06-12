@@ -92,11 +92,18 @@ koaApp.use(async (ctx, next) => {
 })
 
 async function buildBody(detail, tag){
+    let   blocker   = '';
+    let   feedback  = '';
+    let   dropoff   = '';
+    let   summary   = '';
+    let   insights  = '';
+    let   status    = '';
+
+
+
     /** Tags map to Status */
-    let tags =  tag.map(t=>t.name)
-    // console.log(tags)
-    let status = ''
-    if(detail.status != 3) {
+     let tags =  tag.map(t=>t.name)
+     if(detail.status != 3) {
         status = "In-Progress"; // Ticket is still open, we consider this as in-progress
     } else {
         if(tags.includes('Open Status')) {
@@ -105,8 +112,12 @@ async function buildBody(detail, tag){
             status = "Out of Scope"
         } else if (tags.includes("Closed  - With Successful Adoption")) {
             status = "Successful Adoption"
-        } else if (tags.includes("Closed - No Adoption Improvement")) {
+        } else if (tags.includes('Closed  - No Adoption Improvement')) {
             status = "No Adoption"
+            const dropoff_tag = tag.find(t => t.name === "Closed  - No Adoption Improvement");
+            if(dropoff_tag) {
+                dropoff = dropoff_tag.sub_tags[0].name  // By default, it's assumed that there is only one sub tag
+            }
         } else if(tags.includes("Completed - Optimal") || tags.includes("Completed - Not Optimal")) {
             status = "Successful Adoption"
         } else if(tags.includes("Question Answered")  ) {
@@ -186,11 +197,6 @@ async function buildBody(detail, tag){
     const replies=  detail.replies;
 
     /** Blocker, Dropoff, Feedback */
-    let   blocker = '';
-    let   feedback = '';
-    let   dropoff = '';
-    let   summary = '';
-    let   insights = ''
 
     if(replies) {
         const blocker_reg    = /(\[blocker\]\[)(.*)(\])/m
@@ -243,10 +249,10 @@ async function buildBody(detail, tag){
 
                 /** Conclusion */
                 let conclusion_matches = item.content.toLowerCase().match(conclusion_reg)
-                console.log(item.content)
+                // console.log(item.content)
                 if(conclusion_matches) {
-                    console.log(conclusion_matches)
-                    console.log(conclusion_matches[2])
+                    // console.log(conclusion_matches)
+                    // console.log(conclusion_matches[2])
 
                     const conclusion = conclusion_matches[3]
                                                         .replaceAll('&nbsp;', '')
@@ -255,7 +261,7 @@ async function buildBody(detail, tag){
                                                         .replaceAll('<span>', '').replaceAll('</span>', '')
                                                         .replaceAll('<p>', '').replaceAll('</p>', '')
                                                         .replaceAll(/(<span )(.*)(>)/g, ' ')
-                    console.log(conclusion)
+                    // console.log(conclusion)
                 }
             }
         }
