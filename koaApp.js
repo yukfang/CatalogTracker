@@ -96,6 +96,7 @@ async function buildBody(detail, tag){
     let   feedback  = '';
     let   dropoff   = '';
     let   summary   = '';
+    let   conclusion = '';
     let   insights  = '';
     let   status    = '';
 
@@ -254,7 +255,7 @@ async function buildBody(detail, tag){
                     // console.log(conclusion_matches)
                     // console.log(conclusion_matches[2])
 
-                    const conclusion = conclusion_matches[3]
+                    conclusion = conclusion_matches[3]
                                                         .replaceAll('&nbsp;', '')
                                                         .replaceAll('<strong>', '').replaceAll('</strong>', '')
                                                         .replaceAll('<br>', ' ').replaceAll('</br>', ' ')
@@ -348,6 +349,7 @@ async function buildBody(detail, tag){
         feedback,
         summary,
         insights,
+        conclusion,
 
 
         delimeter: "------------------------------------------------",
